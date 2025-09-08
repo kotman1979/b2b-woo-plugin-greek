@@ -29,6 +29,9 @@ class WC_Wholesale_B2B_Admin {
 
         // Enqueue admin scripts
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+
+        // Dashboard Widget
+        add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
     }
 
     /**
