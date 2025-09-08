@@ -26,6 +26,30 @@ class WC_Wholesale_B2B_Admin {
         add_action( 'admin_post_wwb_lead_action', array( $this, 'handle_lead_actions_post' ) );
         // Display admin notices
         add_action( 'admin_notices', array( $this, 'display_admin_notices' ) );
+
+        // Enqueue admin scripts
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+    }
+
+    /**
+     * Enqueue scripts for the admin area.
+     */
+    public function enqueue_admin_scripts( $hook_suffix ) {
+        // Only load on our settings page
+        if ( 'woocommerce_page_wc-settings' !== $hook_suffix ) {
+            return;
+        }
+        if ( ! isset( $_GET['tab'] ) || 'wholesale' !== $_GET['tab'] ) {
+            return;
+        }
+
+        wp_enqueue_script(
+            'wwb-admin-settings',
+            WC_WHOLESALE_B2B_PLUGIN_URL . 'assets/js/admin-settings.js',
+            array( 'jquery', 'wp-util', 'wc-enhanced-select' ),
+            '1.0.2',
+            true
+        );
     }
 
     public function handle_lead_actions_post() {
